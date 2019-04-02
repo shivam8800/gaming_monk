@@ -11,17 +11,17 @@ const SALT_WORK_FACTOR = 10;
 
 const schema = new mongoose.Schema(
 	{
+		social_id: { type: String },
 		password: { type: String, trim: true },
 		is_fb_auth: { type: Boolean, default: false },
 		is_google_auth: { type: Boolean, default: false },
 		username: { type: String, trim: true, required: true, unique: true },
-		email: { type: Email, required: true, index: { unique: true }, trim: true }
+		email: { type: Email, index: { unique: true }, trim: true }
 	},
 	{ collection: 'users' }
 );
 
 schema.index({ email: 1 }, { unique: true }); // schema level
-schema.index({ email: 1, chapters: 1 });
 
 //The User model will now have createdAt and updatedAt properties, which get automatically generated and updated when you save your document.
 schema.plugin(timestamps);

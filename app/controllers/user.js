@@ -76,3 +76,13 @@ exports.google_auth = {
 	notes: 'Log Out',
 	handler: Handlers.google_login
 };
+
+exports.facebook_auth = {
+	auth: {
+		strategy: 'facebook',
+		mode: 'try'
+	},
+	tags: [ 'api' ],
+	notes: 'Log Out',
+	handler: Handlers.facebook_login
+};

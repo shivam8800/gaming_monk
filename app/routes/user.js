@@ -44,6 +44,11 @@ exports.plugin = {
 				method: 'GET',
 				path: '/google/auth',
 				options: Controllers.user.user.google_auth
+			},
+			{
+				method: 'GET',
+				path: '/facebook/auth',
+				options: Controllers.user.user.facebook_auth
 			}
 		]);
 	},

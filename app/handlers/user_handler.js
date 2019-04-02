@@ -48,7 +48,7 @@ exports.logout = async (request, h) => {
 		let session = {
 			id: request.auth.token // a random session id
 		};
-		console.log(session);
+
 		const expiredTime = new Date(request.auth.credentials.exp * 1000);
 		const today = new Date();
 		let seconds = parseInt(Math.abs(expiredTime - today) / 1000);
@@ -69,13 +69,61 @@ exports.logout = async (request, h) => {
 
 exports.google_login = async (request, h) => {
 	return new Promise((resolve, reject) => {
+		console.log(request.auth, 'request.auth');
+		if (!request.auth.isAuthenticated) return reject(Boom.unauthorized('Authentication Failed'));
 		let userObject = {},
 			findCond = {};
 		userObject.is_google_auth = true;
-		userObject.email = request.auth.credentials.profile.email;
+		userObject.social_id = request.auth.credentials.profile.id;
 		userObject.username = request.auth.credentials.profile.displayName;
 
-		findCond = { email: userObject.email };
+		if (request.auth.credentials.profile.email) userObject.email = request.auth.credentials.profile.email;
+
+		findCond = { username: userObject.username };
+
+		User.findOne(findCond, async function(err, data) {
+			if (err) {
+				return reject(Boom.badImplementation(err));
+			} else if (data) {
+				await User.findOneAndUpdate(findCond, { $set: userObject });
+				const token = JWT.sign(
+					{ exp: Math.floor(Date.now() / 1000) + 604800, data: data['_id'].toJSON() },
+					process.env.SECRET_KEY
+				);
+				return resolve(h.response({ token: token, user_id: data['_id'] }).code(201));
+			} else {
+				let new_user = new User(userObject);
+				new_user.save(function(e, d) {
+					console.log(e, 'eee');
+					if (e) {
+						return reject(Boom.badImplementation(err));
+					} else {
+						const token = JWT.sign(
+							{ exp: Math.floor(Date.now() / 1000) + 604800, data: d['_id'].toJSON() },
+							process.env.SECRET_KEY
+						);
+						return resolve(h.response({ token: token, user_id: d['_id'] }).code(201));
+					}
+				});
+			}
+		});
+	});
+};
+exports.facebook_login = async (request, h) => {
+	return new Promise((resolve, reject) => {
+		console.log(request.auth, 'request.auth');
+		if (!request.auth.isAuthenticated) return reject(Boom.unauthorized('Authentication Failed'));
+
+		let userObject = {},
+			findCond = {};
+
+		userObject.is_fb_auth = true;
+		userObject.social_id = request.auth.credentials.profile.id;
+		userObject.username = request.auth.credentials.profile.displayName;
+
+		if (request.auth.credentials.profile.email) userObject.email = request.auth.credentials.profile.email;
+
+		findCond = { username: userObject.username };
 
 		User.findOne(findCond, async function(err, data) {
 			if (err) {
