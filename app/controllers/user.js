@@ -66,3 +66,13 @@ exports.logout = {
 	notes: 'Log Out',
 	handler: Handlers.logout
 };
+
+exports.google_auth = {
+	auth: {
+		strategy: 'google',
+		mode: 'try'
+	},
+	tags: [ 'api' ],
+	notes: 'Log Out',
+	handler: Handlers.google_login
+};

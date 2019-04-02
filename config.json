@@ -1,0 +1,5 @@
+{
+	"OAUTH2_CLIENT_ID": "1011023682632-0t9v1kp61229bsc2f9vooc9sei1g13gs.apps.googleusercontent.com",
+	"OAUTH2_CLIENT_SECRET": "[YOUR_OAUTH2_CLIENT_SECRET]",
+	"OAUTH2_CALLBACK": "http://localhost:3009/user/google/auth"
+}

@@ -39,6 +39,11 @@ exports.plugin = {
 				method: 'POST',
 				path: '/logout',
 				options: Controllers.user.user.logout
+			},
+			{
+				method: 'GET',
+				path: '/google/auth',
+				options: Controllers.user.user.google_auth
 			}
 		]);
 	},

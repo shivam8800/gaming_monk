@@ -11,9 +11,11 @@ const SALT_WORK_FACTOR = 10;
 
 const schema = new mongoose.Schema(
 	{
+		password: { type: String, trim: true },
+		is_fb_auth: { type: Boolean, default: false },
+		is_google_auth: { type: Boolean, default: false },
 		username: { type: String, trim: true, required: true, unique: true },
-		email: { type: Email, required: true, index: { unique: true }, trim: true },
-		password: { type: String, trim: true }
+		email: { type: Email, required: true, index: { unique: true }, trim: true }
 	},
 	{ collection: 'users' }
 );
@@ -41,17 +43,22 @@ schema.statics.checkValidPassword = async function(email, password) {
 
 schema.pre('save', function(next) {
 	let user = this;
-	// generate a salt
-	bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-		if (err) return reject(err);
-		// hash the password along with our new salt
-		bcrypt.hash(user.password, salt, function(err, hash) {
-			if (err) next(err);
-			// return resolve(hash);
-			user.password = hash;
-			next(null);
+
+	if (user.is_google_auth || user.is_fb_auth) {
+		next(null);
+	} else {
+		// generate a salt
+		bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+			if (err) return reject(err);
+			// hash the password along with our new salt
+			bcrypt.hash(user.password, salt, function(err, hash) {
+				if (err) next(err);
+				// return resolve(hash);
+				user.password = hash;
+				next(null);
+			});
 		});
-	});
+	}
 });
 
 schema.statics.encryptPassword = async (password) => {};
