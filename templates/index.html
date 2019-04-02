@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>gamingmonk</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div style="display: flex; justify-content: center; height: 85vh; align-items: center; flex-direction: column">
+        <h1 style="color:blue">{{title}}</h1>
+        <button id="logout">Log Out</button>
+    </div>
+</body>
+
+<script>
+
+
+    //************************************* LOGOUT FUNCTIONALITY IS NOT WORKING FROM FRONTEND ***************//
+
+    $("#logout").click(function () {
+        $.ajax({
+                url: '/user/logout',
+                type: "post",
+                headers: {
+                    "Authorization": window.localStorage.getItem(token)
+                },
+                success: function (success) {
+                    console.log(success, "khtm")
+                    alert(success)
+                },
+                error: function (er) {
+                    alert(er)
+                }
+            })
+    })
+
+</script>
+</html>
