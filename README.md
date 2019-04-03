@@ -28,4 +28,4 @@ npm start
 2. ```When the code is running, API documentation is accessible at localhost:3009/documentation.```
 
 ## Note:-
-```  .env file is already.```
+```  creat .env and put the credentials in it.```
