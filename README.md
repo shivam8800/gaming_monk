@@ -24,7 +24,8 @@ npm start
 ```
 
 # Documentation
-1. ```When the code is running, API documentation is accessible at localhost:3009/documentation.```
+1. ``` when the code is running, you can go to localhost:3009 for basic UI implementation.
+2. ```When the code is running, API documentation is accessible at localhost:3009/documentation.```
 
 ## Note:-
 ```  .env file is already.```
