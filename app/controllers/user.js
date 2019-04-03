@@ -9,10 +9,6 @@ const middleware = require('../middlewares/user');
 //handler
 const Handlers = require('../handlers/user_handler');
 
-//dependencies
-const Joi = require('joi');
-Joi.objectId = require('joi-objectid')(Joi);
-
 exports.login_page = {
 	tags: [ 'api' ],
 	notes: 'LogIn Page',
@@ -23,12 +19,21 @@ exports.login_page = {
 };
 
 exports.home = {
-	auth: 'jwt',
 	tags: [ 'api' ],
 	notes: 'home Page',
 	description: 'home Page',
 	handler: async (request, h) => {
-		return h.view('index', { title: 'welcome to Home Page' });
+		return h.view('home', { title: 'welcome to Home Page' });
+	}
+};
+
+exports.index = {
+	auth: 'jwt',
+	tags: [ 'api' ],
+	notes: 'index Page',
+	description: 'index Page',
+	handler: async (request, h) => {
+		return h.view('home', { title: 'welcome to INDEX Page, Successfully loged in' });
 	}
 };
 

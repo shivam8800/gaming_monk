@@ -5,6 +5,7 @@
 const config = require('config');
 const Config = JSON.parse(JSON.stringify(config));
 const Nunjucks = require('nunjucks');
+const Controller = require('../app/controllers/user');
 
 const Pack = require('../package');
 
@@ -77,6 +78,11 @@ exports.options = {
 	// Not a perfect solution but it works OK
 	preRegister: async (server) => {
 		await server.register([ Inert, Vision ]);
+		server.route({
+			method: 'GET',
+			path: '/',
+			options: Controller.home
+		});
 		server.views({
 			engines: {
 				html: {

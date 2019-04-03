@@ -17,6 +17,11 @@ exports.plugin = {
 			},
 			{
 				method: 'GET',
+				path: '/index',
+				options: Controllers.user.user.index
+			},
+			{
+				method: 'GET',
 				path: '/login',
 				options: Controllers.user.user.login_page
 			},

@@ -98,6 +98,12 @@
         color: blue;
         font-size: 40px;
     }
+    .social_login{
+        margin: 10%;
+    }
+    .signup{
+        width: 40%;
+    }
 </style>
 
 <body>
@@ -117,7 +123,11 @@
             <input type="password" placeholder="Enter Password" name="psw" id="password" required>
 
             <button type="submit" id="sign_submit">Sign Up</button>
-            <a href="/user/login">LogIn</a>
+            <div style="margin-top: 5%;">
+                <a href="/user/login" class="social_login">LogIn</a>
+                <a href="/user/google/auth" class="social_login">Google</a>
+                <a href="/user/facebook/auth" class="social_login">Facebook</a>
+            </div>
         </div>
     </div>
 </body>
@@ -125,19 +135,20 @@
 <script>
     $("#sign_submit").click(function () {
         let postData = { "email": $('#email').val(), "password": $('#password').val(), "username": $('#username').val() }
-
+        var dataJson = JSON.stringify(postData);
         // /* start ajax submission process */
         $.ajax({
             url: '/user/signup',
             type: "POST",
-            data: postData,
+            data: dataJson,
             success: function (data) {
                 window.location = '/user/login'
             },
             error: function (err) {
                 alert(err);
-            }
-
+            },
+            dataType: "json",
+            contentType: "application/json"
         });
     });
 </script>

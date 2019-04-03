@@ -90,6 +90,7 @@ exports.google_login = async (request, h) => {
 					{ exp: Math.floor(Date.now() / 1000) + 604800, data: data['_id'].toJSON() },
 					process.env.SECRET_KEY
 				);
+				console.log(data, 'ho gya login');
 				return resolve(h.response({ token: token, user_id: data['_id'] }).code(201));
 			} else {
 				let new_user = new User(userObject);

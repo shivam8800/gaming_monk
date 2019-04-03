@@ -98,6 +98,9 @@
         color: blue;
         font-size: 40px;
     }
+    .social_login{
+        margin: 10%;
+    }
 </style>
 
 <body>
@@ -113,7 +116,11 @@
             <input type="password" placeholder="Enter Password" name="psw" id="password" required>
 
             <button type="submit" id="sign_submit">Login</button>
-            <a href="/user/signup">SignUp</a>
+            <div style="margin-top: 5%;">
+                <a href="/user/signup" class="social_login">SignUp</a>
+                <a href="/user/google/auth" class="social_login">Google</a>
+                <a href="/user/facebook/auth" class="social_login">Facebook</a>
+            </div>
         </div>
     </div>
 </body>
@@ -127,15 +134,14 @@
             type: "POST",
             data: postData,
             success: function (data) {
-                console.log(data, "fsdfs")
                 $.ajax({
-                    url: '/user/home',
+                    url: '/user/index',
                     type: "GET",
                     headers: {
                         "Authorization": data.token
                     },
                     success: function (success) {
-                        window.localStorage.setItem("token", data.token);
+                        console.log(success, "jkfjsdk")
                         $('html').html(success);
                     },
                     error: function (er) {
