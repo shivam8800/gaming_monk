@@ -18,7 +18,7 @@
 ## Usage
 ```no-highlight
 git clone
-cd Legacy
+cd gaming_monk
 npm install
 npm start
 ```
